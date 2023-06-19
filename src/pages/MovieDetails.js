@@ -7,17 +7,12 @@ import PropTypes from 'prop-types';
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const [linkBack, setLinkBack] = useState('/');
-  const { movieId } = useParams();
+  const { movieId } = useParams(); 
   const [statusPending, setStatusPending] = useState(false);
   const [statusErrorServer, setStatusErrorServer] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    if (!location.state?.from) {
-      return;
-    }
-    const goBack = location.state?.from ?? '/';
-    setLinkBack(goBack);
     fetchMovieDetails(movieId).then(result => {
       if (result) {
         setMovie(result.data);
@@ -26,7 +21,12 @@ const MovieDetails = () => {
       } else if (!result) setMovie(null);
       setStatusErrorServer(true);
     });
-
+    
+    if (!location.state?.from) {
+      return;
+    }
+    const goBack = location.state?.from ?? '/';
+    setLinkBack(goBack);
     return () => {
       setStatusErrorServer(false);
     };
