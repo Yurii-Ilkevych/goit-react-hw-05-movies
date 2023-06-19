@@ -6,7 +6,7 @@ import { GoBack, Wrapper, LinkMovie, WrapperUl } from './MovieDetails.styled';
 import PropTypes from 'prop-types';
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
-  const [linkBack, setLinkBack] = useState('/');
+  const [linkBack, setLinkBack] = useState('/movies');
   const { movieId } = useParams(); 
   const [statusPending, setStatusPending] = useState(false);
   const [statusErrorServer, setStatusErrorServer] = useState(false);
@@ -21,11 +21,11 @@ const MovieDetails = () => {
       } else if (!result) setMovie(null);
       setStatusErrorServer(true);
     });
-    
+
     if (!location.state?.from) {
       return;
     }
-    const goBack = location.state?.from ?? '/';
+    const goBack = location.state?.from ?? '/movies';
     setLinkBack(goBack);
     return () => {
       setStatusErrorServer(false);
