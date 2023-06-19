@@ -1,23 +1,20 @@
 import { useState, useEffect } from 'react';
-import {useSearchParams} from "react-router-dom"
+import { useSearchParams } from 'react-router-dom';
 import RenderSearchMovie from '../components/RenderSearchMovie/RenderSearchMovie';
 import fetchSearchMovies from 'components/APi/fetchSearchMovies';
 const Movies = () => {
   const [query, setQuery] = useState('');
   const [foundMovies, setFoundMovies] = useState(null);
-  const [statusPending, setStatusPending] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [notFaund, setNotFound] = useState(false);
-  const [errorServer, setErrorServer] = useState(false);
-
-
-
+  const [statusPending, setStatusPending] = useState(false);
+  const [statusErrorServer, setStatusErrorServer] = useState(false);
+  const [statusNotFaund, setStatusNotFound] = useState(false);
 
   useEffect(() => {
-    const value = searchParams.get("query");
+    const value = searchParams.get('query');
     if (value === null) {
-        setStatusPending(false)
-        setNotFound(false)
+      setStatusPending(false);
+      setStatusNotFound(false);
       return;
     }
 
@@ -25,26 +22,25 @@ const Movies = () => {
       if (response && response.data.results.length !== 0) {
         setFoundMovies(response.data.results);
         setStatusPending(true);
-        setNotFound(false)
-      }else if(response.data.results.length === 0){
-        setNotFound(true)
-      }else if(!response){
-        setErrorServer(true)
+        setStatusNotFound(false);
+      } else if (response.data.results.length === 0) {
+        setStatusNotFound(true);
+      } else if (!response) {
+        setStatusErrorServer(true);
       }
-      
     });
 
-    return ()=> {
-        setStatusPending(false)
-        setNotFound(false)
-        setErrorServer(false)
-    }
+    return () => {
+      setStatusPending(false);
+      setStatusNotFound(false);
+      setStatusErrorServer(false);
+    };
   }, [searchParams]);
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    updateQueryString(query.trim())
+    updateQueryString(query.trim());
     setQuery('');
   };
 
@@ -53,8 +49,8 @@ const Movies = () => {
     setQuery(value);
   };
 
-  const updateQueryString = (query) => {
-    const currentParams = query !== "" ? { query } : {};
+  const updateQueryString = query => {
+    const currentParams = query !== '' ? { query } : {};
     setSearchParams(currentParams);
   };
   return (
@@ -66,8 +62,12 @@ const Movies = () => {
         <button type="submit">Search</button>
       </form>
       {statusPending && <RenderSearchMovie movies={foundMovies} />}
-      {notFaund && <h2>We don't have any movies by string "{searchParams.get("query")}"</h2>}
-      {errorServer && <h2>Server response error</h2>}
+      {statusNotFaund && (
+        <h2>
+          We don't have any movies by string "{searchParams.get('query')}"
+        </h2>
+      )}
+      {statusErrorServer && <h2>Server response error</h2>}
     </>
   );
 };

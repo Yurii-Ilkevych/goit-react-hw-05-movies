@@ -4,35 +4,33 @@ import fetchTrandingMovies from '../components/APi/fetchTrandingMovies';
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState(null);
   const [statusPending, setStatusPending] = useState(false);
-  const [notFaund, setNotFound] = useState(false);
-  const [errorServer, setErrorServer] = useState(false);
+  const [statusErrorServer, setStatusErrorServer] = useState(false);
+  const [statusNotFaund, setStatusNotFound] = useState(false);
   useEffect(() => {
-    fetchTrandingMovies()
-      .then(response => {
-        if (response) {
-          setStatusPending(true);
-          setTrendingMovies(response.data.results);
-        }else if(!response){
-          setErrorServer(true)
-        }else if(response.data.results.length === 0){
-          setNotFound(true)
-        }
+    fetchTrandingMovies().then(response => {
+      if (response) {
+        setStatusPending(true);
+        setTrendingMovies(response.data.results);
+      } else if (!response) {
+        setStatusErrorServer(true);
+      } else if (response.data.results.length === 0) {
+        setStatusNotFound(true);
+      }
+    });
 
-      })
-
-      return ()=> {
-        setStatusPending(false)
-        setNotFound(false)
-        setErrorServer(false)
-    }
+    return () => {
+      setStatusPending(false);
+      setStatusNotFound(false);
+      setStatusErrorServer(false);
+    };
   }, []);
 
   return (
     <div>
       <h2>Treding Today</h2>
       {statusPending && <RenderTrendsMovie movies={trendingMovies} />}
-      {notFaund && <h2>We don't have any trends movies"</h2>}
-      {errorServer && <h2>Server response error</h2>}
+      {statusNotFaund && <h2>We don't have any trends movies"</h2>}
+      {statusErrorServer && <h2>Server response error</h2>}
     </div>
   );
 };

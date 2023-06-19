@@ -1,35 +1,34 @@
 import { Outlet, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState, Suspense } from 'react';
 import fetchMovieDetails from '../components/APi/fetchMovieDetails';
-import defaultPoster from "./img/Frame770814.png"
+import defaultPoster from './img/Frame770814.png';
 import { GoBack, Wrapper, LinkMovie, WrapperUl } from './MovieDetails.styled';
 import PropTypes from 'prop-types';
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
-  const [statusPending, setStatusPending] = useState(false);
-  const [errorServer, setErrorServer] = useState(false);
-  const [linkBack, setLinkBack] = useState("/")
+  const [linkBack, setLinkBack] = useState('/');
   const { movieId } = useParams();
+  const [statusPending, setStatusPending] = useState(false);
+  const [statusErrorServer, setStatusErrorServer] = useState(false);
   const location = useLocation();
 
-
   useEffect(() => {
-if(!location.state?.from){
-  return
-}
+    if (!location.state?.from) {
+      return;
+    }
     const goBack = location.state?.from ?? '/';
-    setLinkBack(goBack)
+    setLinkBack(goBack);
     fetchMovieDetails(movieId).then(result => {
       if (result) {
         setMovie(result.data);
         setStatusPending(true);
         return;
       } else if (!result) setMovie(null);
-      setErrorServer(true);
+      setStatusErrorServer(true);
     });
 
     return () => {
-      setErrorServer(false);
+      setStatusErrorServer(false);
     };
   }, [location.state?.from, movieId]);
 
@@ -39,7 +38,9 @@ if(!location.state?.from){
       return `https://image.tmdb.org/t/p/original/${poster_path}`;
     } else if (backdrop_path) {
       return `https://image.tmdb.org/t/p/original/${backdrop_path}`;
-    }else{return defaultPoster}
+    } else {
+      return defaultPoster;
+    }
   };
   const getTitle = movie => {
     const { title, name } = movie;
@@ -107,7 +108,12 @@ if(!location.state?.from){
       ) : (
         <Wrapper>
           <div>
-            <img src={defaultPoster} alt="poster" width={160} height={180}></img>
+            <img
+              src={defaultPoster}
+              alt="poster"
+              width={160}
+              height={180}
+            ></img>
           </div>
           <h2>
             Title <span>(....)</span>
@@ -119,7 +125,7 @@ if(!location.state?.from){
           <p>...</p>
         </Wrapper>
       )}
-      {errorServer && <h2>Server response error</h2>}
+      {statusErrorServer && <h2>Server response error</h2>}
       <WrapperUl>
         <h3>Additional information</h3>
         <li>
@@ -135,7 +141,6 @@ if(!location.state?.from){
     </div>
   );
 };
-
 
 MovieDetails.propTypes = {
   movieId: PropTypes.string,
