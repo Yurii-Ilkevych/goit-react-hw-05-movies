@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Wrapper, LinkMovie } from "./RenderSearchMovie.styled";
-
+import PropTypes from 'prop-types';
 const RenderSearchMovie = ({movies}) => {
 const location = useLocation()
     return(
@@ -13,4 +13,15 @@ const location = useLocation()
     )
     }
     
+    RenderSearchMovie.propTypes = {
+        movies: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string,
+            name: PropTypes.string,
+          })
+        ).isRequired,
+      };
+
+
     export default RenderSearchMovie

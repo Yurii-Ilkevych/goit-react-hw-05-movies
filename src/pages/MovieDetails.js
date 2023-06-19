@@ -3,6 +3,7 @@ import { useEffect, useState, Suspense } from 'react';
 import fetchMovieDetails from '../components/APi/fetchMovieDetails';
 import defaultPoster from "./img/Frame770814.png"
 import { GoBack, Wrapper, LinkMovie, WrapperUl } from './MovieDetails.styled';
+import PropTypes from 'prop-types';
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const [statusPending, setStatusPending] = useState(false);
@@ -133,6 +134,11 @@ if(!location.state?.from){
       </Suspense>
     </div>
   );
+};
+
+
+MovieDetails.propTypes = {
+  movieId: PropTypes.string,
 };
 
 export default MovieDetails;

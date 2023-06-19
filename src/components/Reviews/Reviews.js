@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import fetchRewievs from '../APi/fetchReviews';
 import { WrapperUl } from './Rewievs.styled';
+import PropTypes from 'prop-types';
 const Reviews = () => {
   const [reviews, setReviews] = useState(null);
-  const [statusPending, setStatusPending] = useState(false);
   const { movieId } = useParams();
-  const [errorServer, setErrorServer] = useState(false);
-  const [notFaund, setNotFound] = useState(false)
+  const [statusPending, setStatusPending] = useState(false);
+  const [statusErrorServer, setErrorServer] = useState(false);
+  const [statusNotFaund, setNotFound] = useState(false)
+
 
   useEffect(() => {
     fetchRewievs(movieId).then(results => {
@@ -27,6 +29,7 @@ return ()=> {
     setNotFound(false)
     setStatusPending(false)
     setReviews(null)
+    setErrorServer(false)
 }
 
 }, [movieId]);
@@ -58,10 +61,14 @@ if ( content){
         </li>
         }) }
       </WrapperUl>}
-      {errorServer && <h2>Server response error</h2>}
-      {notFaund && <h2>We don't have any reviews for this movie</h2>}
+      {statusErrorServer && <h2>Server response error</h2>}
+      {statusNotFaund && <h2>We don't have any reviews for this movie</h2>}
     </section>
   );
+};
+
+Reviews.propTypes = {
+  movieId: PropTypes.string,
 };
 
 export default Reviews;

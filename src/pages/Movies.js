@@ -7,7 +7,8 @@ const Movies = () => {
   const [foundMovies, setFoundMovies] = useState(null);
   const [statusPending, setStatusPending] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [notFaund, setNotFound] = useState(false)
+  const [notFaund, setNotFound] = useState(false);
+  const [errorServer, setErrorServer] = useState(false);
 
 
 
@@ -27,6 +28,8 @@ const Movies = () => {
         setNotFound(false)
       }else if(response.data.results.length === 0){
         setNotFound(true)
+      }else if(!response){
+        setErrorServer(true)
       }
       
     });
@@ -34,6 +37,7 @@ const Movies = () => {
     return ()=> {
         setStatusPending(false)
         setNotFound(false)
+        setErrorServer(false)
     }
   }, [searchParams]);
 
@@ -63,6 +67,7 @@ const Movies = () => {
       </form>
       {statusPending && <RenderSearchMovie movies={foundMovies} />}
       {notFaund && <h2>We don't have any movies by string "{searchParams.get("query")}"</h2>}
+      {errorServer && <h2>Server response error</h2>}
     </>
   );
 };
