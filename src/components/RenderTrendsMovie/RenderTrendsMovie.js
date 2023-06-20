@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useLocation } from "react-router-dom";
 import { Wrapper, LinkMovie } from "./RenderTrendsMovie.styled";
+
 const RenderTrendsMovie = ({movies}) => {
 const location = useLocation()
     return(

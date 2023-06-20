@@ -2,7 +2,9 @@ import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 import { Container } from '../CommonStaled/Common.styled';
 import { Header, Link } from './SharedLayout.staled';
+
 export const SharedLayout = () => {
+  
   return (
     <Container>
       <Header>

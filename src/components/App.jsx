@@ -9,6 +9,7 @@ const Cast = lazy(() => import('./Cast/Cast'));
 const Rewievs = lazy(() => import('./Reviews/Reviews'));
 
 export const App = () => {
+  
   return (
     <Routes>
       <Route path="/" element={<SharedLayout />}>

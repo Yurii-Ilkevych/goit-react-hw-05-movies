@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import RenderTrendsMovie from '../components/RenderTrendsMovie/RenderTrendsMovie';
-import fetchTrandingMovies from '../components/APi/fetchTrandingMovies';
+import fetchTrandingMovies from '../api/fetchTrandingMovies';
+
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState(null);
   const [statusPending, setStatusPending] = useState(false);
   const [statusErrorServer, setStatusErrorServer] = useState(false);
   const [statusNotFaund, setStatusNotFound] = useState(false);
+
   useEffect(() => {
     fetchTrandingMovies().then(response => {
       if (response) {

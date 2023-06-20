@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import fetchCredits from '../APi/fetchCredits';
-import defaultActor from './img/no-profile-picture-icon.png';
+import fetchCredits from '../../api/fetchCredits';
+import defaultActor from '../../img/no-profile-picture-icon.png';
 import { WrapperUl } from './Cast.styled';
-import PropTypes from 'prop-types';
+
 const Cast = () => {
+
   const [cast, setCast] = useState(null);
   const { movieId } = useParams();
   const [statusPending, setStatusPending] = useState(false);
@@ -85,10 +86,6 @@ const Cast = () => {
       {statusNotFaund && <h2>No cast information found</h2>}
     </section>
   );
-};
-
-Cast.propTypes = {
-  movieId: PropTypes.string,
 };
 
 export default Cast;

@@ -1,13 +1,18 @@
 import { Outlet, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState, Suspense } from 'react';
-import fetchMovieDetails from '../components/APi/fetchMovieDetails';
-import defaultPoster from './img/Frame770814.png';
-import { GoBack, Wrapper, LinkMovie, WrapperUl } from './MovieDetails.styled';
-import PropTypes from 'prop-types';
+import fetchMovieDetails from '../api/fetchMovieDetails';
+import defaultPoster from '../img/Frame770814.png';
+import {
+  GoBack,
+  Wrapper,
+  LinkMovie,
+  WrapperUl,
+} from '../stylePages/MovieDetails.styled';
+
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const [linkBack, setLinkBack] = useState('/movies');
-  const { movieId } = useParams(); 
+  const { movieId } = useParams();
   const [statusPending, setStatusPending] = useState(false);
   const [statusErrorServer, setStatusErrorServer] = useState(false);
   const location = useLocation();
@@ -42,6 +47,7 @@ const MovieDetails = () => {
       return defaultPoster;
     }
   };
+
   const getTitle = movie => {
     const { title, name } = movie;
     if (title) {
@@ -52,6 +58,7 @@ const MovieDetails = () => {
       return 'No name';
     }
   };
+
   const getUserScore = userScore => {
     if (userScore) {
       return `${(userScore * 10).toFixed()}%`;
@@ -59,6 +66,7 @@ const MovieDetails = () => {
       return 'No user score';
     }
   };
+
   const getOwerviev = overview => {
     if (overview) {
       return overview;
@@ -66,6 +74,7 @@ const MovieDetails = () => {
       return 'No owerview';
     }
   };
+
   const getGenre = genres => {
     if (genres) {
       const genresMovie = genres.map(genre => genre.name);
@@ -74,6 +83,7 @@ const MovieDetails = () => {
       return 'No genre';
     }
   };
+
   const getYear = ({ release_date, first_air_date }) => {
     if (release_date) {
       return release_date.split('').slice(0, 4).join('');
@@ -83,6 +93,7 @@ const MovieDetails = () => {
       return 'No date';
     }
   };
+
   return (
     <div>
       <GoBack to={linkBack}>← go back</GoBack>
@@ -140,10 +151,6 @@ const MovieDetails = () => {
       </Suspense>
     </div>
   );
-};
-
-MovieDetails.propTypes = {
-  movieId: PropTypes.string,
 };
 
 export default MovieDetails;

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import fetchRewievs from '../APi/fetchReviews';
+import fetchRewievs from '../../api/fetchReviews';
 import { WrapperUl } from './Rewievs.styled';
-import PropTypes from 'prop-types';
+
 const Reviews = () => {
+
   const [reviews, setReviews] = useState(null);
   const { movieId } = useParams();
   const [statusPending, setStatusPending] = useState(false);
@@ -70,10 +71,6 @@ const Reviews = () => {
       {statusNotFaund && <h2>We don't have any reviews for this movie</h2>}
     </section>
   );
-};
-
-Reviews.propTypes = {
-  movieId: PropTypes.string,
 };
 
 export default Reviews;

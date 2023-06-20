@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import RenderSearchMovie from '../components/RenderSearchMovie/RenderSearchMovie';
-import fetchSearchMovies from 'components/APi/fetchSearchMovies';
+import fetchSearchMovies from 'api/fetchSearchMovies';
+
 const Movies = () => {
+  
   const [query, setQuery] = useState('');
   const [foundMovies, setFoundMovies] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
